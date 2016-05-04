@@ -2,7 +2,9 @@
 # coding=utf-8
 
 import os
+import time
 import re
+from subprocess import call
 import argparse
 
 VALID_CHARACTERS = '[ō\w0-9\s\,\&\(\)\.\!\'\[\]\#\_]'
@@ -46,12 +48,13 @@ def process_file(file_name):
             print '{} - {}'.format(artist_candidate, title_candidate)
             if args.execute:
                 print 'gemächt'
+                call(['mp3info', '-a {}'.format(artist_candidate), '-t {}'.format(title_candidate), '-g {}'.format('52'), '{}'.format(os.path.join('downloads', file_name))])
 
 
 if __name__ == '__main__':
     if args.file is not None:
         process_file(args.file)
     else:
-        for file_name in os.listdir('youtube'):
+        for file_name in os.listdir('downloads'):
             process_file(file_name)
             #raw_input('Press Enter to continue')
